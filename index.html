@@ -123,17 +123,54 @@
       <section>
         <img src="img/inyectorDependencias.png"/>
       </section>
+      <section data-markdown>
+        <script type="text/template">
+          * Hay 3 tipos de inyección de dependencies
+            * basadas en contructor
+            * basadas en setters
+            * basadas en interfaces
+          * La mayoría de los frameworks soportan las basadas en constructor y setters
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Veamos como queda nuestro código con Spring Framework
+          ### Paso 03
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * La inyección de dependencias nos permite mantener nuestro código débilmente
+            acoplado, ganando en mantenibilidad.
+          * Además, permite una manera sencilla de construir test introduciendo clases
+            mock o clases específicas para forzar determinados comportamientos.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## ¿Dónde está el éxito de Spring?
+          ### ¿Se debe únicamente a la facilidad de mantenimiento y de construcción de tests?
+          * Es un motivo de mucho peso
+          * Pero no es el único
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * Creación de objetos mucho más complejos con muchas dependencias
+          * Creación de objetos de lógica (y posterior destrucción) de forma innecesarias
+            en entornos altamente concurrentes como aplicaciones web:
+            * Clases de lógica sin estado
+            * Clases de lógica con estado
+            * Clases de lógica con estado en cada ejecución
+            * Facilidad de integración con otros frameworks/tecnologías
+              * JMS
+              * JDBC
+              * Colas
+              * …
+        </script>
+      </section>
     </section>
 
-    <section data-markdown>
-      <script type="text/template">
-        * Nos centraremos en el objeto contactoDAO, en concreto en la manera en que conectamos ContactoServicio con este objeto.
-        * La idea es intentar que el método getContactos sea totalmente independiente de la manera de almacenar los usuarios.
-        * Podemos comenzar definiendo una interfaz.
-        * De esta forma conseguimos desacoplar el método con la implementación final…
-        pero en algún momento habrá que crear un objeto que implementa dicha interfaz.
-      </script>
-    </section>
 
 
   </div>
