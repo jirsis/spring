@@ -70,6 +70,59 @@
           ### Paso 01
         </script>
       </section>
+      <section data-markdown>
+        <script type="text/template">
+          * En nuestro ejemplo lo hemos implementado dentro del constructor de la clase
+          * Supongamos ahora que otros desarrolladores quieren utilizar la funcionalidad
+            pero <!-- .element: class="fragment" data-fragment-index="1" -->
+            * Usan un formato de fichero distinto al mío <!-- .element: class="fragment" data-fragment-index="2" -->
+            **UPS!** <!-- .element: class="fragment" data-fragment-index="4" -->
+            * Usan el mismo formato, pero el fichero se llama de distinta manera o está
+              en otro directorio <!-- .element: class="fragment" data-fragment-index="5" -->
+            **UPS!**<!-- .element: class="fragment" data-fragment-index="6" -->
+            * Lo tienen en una base de datos <!-- .element: class="fragment" data-fragment-index="7" -->
+            **UPS! UPS! UPS! GULP! ARGGG! OMFG!! ** <!-- .element: class="fragment" data-fragment-index="8" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Podemos definir ContactoServicios como una interfaz e implementar distintos comportamientos según los requisitos
+          * Pero seguimos teniendo que crear el objeto de la implementación concreta en algún sitio. <!-- .element: class="fragment" data-fragment-index="1" -->
+          * Resumiendo tendríamos algo que se parece a... <!-- .element: class="fragment" data-fragment-index="1" -->
+        </script>
+      </section>
+      <section>
+        <img src="img/interfaz.png"/>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## ¡A JUGAR!
+          ### Paso 02
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * Podemos tener muchas implementaciones de ContactoDAO y
+            conseguir que todas funcionen gracias a referencias solamente a la interfaz.
+          * Si queremos poder usar el programa con las diferentes implementaciones
+            según la situación sin que afecte a Agenda, necesitamos un mecanismo
+            que ensamble la implementación que necesitamos en cada caso.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * Para resolver este problema existe toda una serie de frameworks ligeros
+            como Spring Framework, Google Guice o PicoContainer.
+          * Todos ellos usan la Inversión de Control (IoC) para abordar el problema.
+          * La idea básica es que se creará un elemento extra que será el encargado
+            de poblar el campo ContactosDAO de la clase Agenda con la implementación
+            correcta.
+          * La representación de la aplicación quedaría algo similar a… 
+        </script>
+      </section>
+      <section>
+        <img src="img/inyectorDependencias.png"/>
+      </section>
     </section>
 
     <section data-markdown>
