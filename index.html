@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title>Spring v4.0</title>
+
+<meta name="description" content="spring framework">
+<meta name="author" content="J. Ignacio Reta Sabarrós">
+
+<link rel="stylesheet" type="text/css" href="http://spring.io/css/main.css">
+<link rel="stylesheet" href="bower_components/reveal.js/css/reveal.css">
+<link rel="stylesheet" href="bower_components/reveal.js/css/theme/league.css" id="theme">
+<link rel="stylesheet" href="lib/css/zenburn.css">
+
+
+</head>
+
+<body>
+  <div class="reveal">
+  <div class="slides">
+    <section>
+      <section>
+        <div class="icon icon-spring-logo-big homepage-icon"></div>
+
+        <h1>Spring Framework</h1>
+        <h3>Ayuda para el desarrollo de aplicaciones y contenedor de inyección de dependencias</h3>
+      </section>
+      <section>
+        Todos los ejemplos que vamos a enseñar son código java. <br>
+        Todos los conceptos son aplicables a otras tecnologías que usen
+        el paradigma de orientación a objetos.
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Vamos a hablar de:
+          * Inyección de dependencias
+          * ApplicationContext vs. BeanFactory
+          * Ciclo de vida de los beans y más configuración
+          * Testeo + inyección de dependencias
+          * Spring data + JPA
+          * Spring batch + schedule
+        </script>
+      </section>
+    </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Comencemos con inyección de dependencias
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Vamos a ver un ejemplo muy sencillo de inyección de dependencias.
+          * Tenemos una agenda de contactos <!-- .element: class="fragment" data-fragment-index="1" -->
+          * Queremos imprimir toda la agenda de contactos <!-- .element: class="fragment" data-fragment-index="2" -->
+          </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Implementación
+          * Nuestra agenda será un properties <!-- .element: class="fragment" data-fragment-index="1" -->
+          * Necesitamos "algo" para mostrar por pantalla la información de todos los contactos <!-- .element: class="fragment" data-fragment-index="2" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## ¡A JUGAR!
+        </script>
+      </section>
+    </section>
+
+
+
+    <section data-markdown>
+      <script type="text/template">
+        * Nos centraremos en el objeto contactoDAO, en concreto en la manera en que conectamos ContactoServicio con este objeto.
+        * La idea es intentar que el método getContactos sea totalmente independiente de la manera de almacenar los usuarios.
+        * Podemos comenzar definiendo una interfaz.
+        * De esta forma conseguimos desacoplar el método con la implementación final…
+        pero en algún momento habrá que crear un objeto que implementa dicha interfaz.
+      </script>
+    </section>
+
+
+  </div>
+  </div>
+  <script type="text/javascript" src="bower_components/reveal.js/lib/js/head.min.js"></script>
+  <script type="text/javascript" src="bower_components/reveal.js/js/reveal.js"></script>
+
+  <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+          controls: true,
+          progress: true,
+          history: true,
+          keyboard: true,
+          center: true,
+          hideAddressBar: true,
+
+          theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+          transition: Reveal.getQueryHash().transition || 'concave', // default/cube/page/concave/zoom/linear/none
+
+          dependencies: [
+  					{ src: 'bower_components/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+  					{ src: 'bower_components/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'bower_components/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'bower_components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+  					{ src: 'bower_components/reveal.js/plugin/notes/notes.js' }
+  				]
+      });
+  </script>
+</body>
+</html>
