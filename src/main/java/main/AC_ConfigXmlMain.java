@@ -6,7 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import populate.GeneraContacto;
 import formatter.TableFormatter;
 
-public class AD_ConfigXmlMain {
+public class AC_ConfigXmlMain {
 
 	private final String[] CABECERAS = { "Nombre", "Apellidos", "Edad" };
 	
@@ -14,7 +14,7 @@ public class AD_ConfigXmlMain {
 	
 	private TableFormatter formateador;
 
-	public AD_ConfigXmlMain() {
+	public AC_ConfigXmlMain() {
 		appContext = new ClassPathXmlApplicationContext("application-context-tags.xml");
 	}
 
@@ -91,7 +91,7 @@ public class AD_ConfigXmlMain {
 	}
 
 	public static void main(String[] args) {
-		AD_ConfigXmlMain example = new AD_ConfigXmlMain();
+		AC_ConfigXmlMain example = new AC_ConfigXmlMain();
 		example.showFormateadores();
 	}
 }

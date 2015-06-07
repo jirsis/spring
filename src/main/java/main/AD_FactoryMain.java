@@ -9,7 +9,7 @@ import populate.GeneraContacto;
 import formatter.Formatter;
 import formatter.TableFormatter;
 
-public class AC_FactoryMain {
+public class AD_FactoryMain {
 	
 	private static final String[] CABECERAS = { "Nombre", "Apellidos", "Edad" };
 	
