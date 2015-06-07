@@ -171,6 +171,157 @@
       </section>
     </section>
 
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Introducción a Spring
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##IoC ofrecidos por Spring
+          * BeanFactory
+          * ApplicationContext
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## ApplicationContext vs BeanFactory
+          * Proporciona soporte I18n para mensajes de texto
+          * Proporciona forma genérica de cargar recursos, como imágenes
+          * Puede publicar eventos a beans que están registrados como _listeners_
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Tipos de _BeanFactory_
+          * XmlBeanFactory (indicará como se cargará el xml de definición)
+            * ClassPathResource
+            * FileSystemResource
+            * InputStreamResource
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Tipos de _ApplicationContext_
+          * ClassPathXmlApplicationContext
+          * FileSystemXmlApplicationContext
+          * XmlWebApplicationContext
+        </script>
+      </section>
+      <section>
+        <h2>Relación entre ellos</h2>
+        <img src="img/jerarquiaBeans.png"/>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Configuración basada en XML
+          * <!-- .element: class="fragment" data-fragment-index="1" -->
+            id/name<!-- .element: class="fragment" data-fragment-index="2" -->
+            _: nombre por el que se hará referencia al bean.
+            En caso de no definir ninguno, se sigue la convención del nombre de
+            la clase con la primera letra en minúscula._<!-- .element: class="fragment" data-fragment-index="3" -->
+          * <!-- .element: class="fragment" data-fragment-index="4" -->
+            class<!-- .element: class="fragment" data-fragment-index="5" -->
+            _: nombre completo de la clase que implementará el bean en cuestión._<!-- .element: class="fragment" data-fragment-index="6" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * scope
+            _: "alcance" que tiene el bean que se define._<!-- .element: class="fragment" data-fragment-index="1" -->
+          * <!-- .element: class="fragment" data-fragment-index="2" -->
+            constructor-arg<!-- .element: class="fragment" data-fragment-index="3" -->
+            _: definición de los argumentos que serán necesarios proporcionar al constructor de la clase._<!-- .element: class="fragment" data-fragment-index="4" -->
+          * <!-- .element: class="fragment" data-fragment-index="5" -->
+            properties<!-- .element: class="fragment" data-fragment-index="6" -->
+            _: forma de invocar la inyección por dependencias a través de los setters. _<!-- .element: class="fragment" data-fragment-index="7" -->
+          * <!-- .element: class="fragment" data-fragment-index="8" -->
+            autowire<!-- .element: class="fragment" data-fragment-index="9" -->
+            _: define la forma de resolver las depenencias en las relaciones de objetos._<!-- .element: class="fragment" data-fragment-index="10" -->
+          * <!-- .element: class="fragment" data-fragment-index="11" -->
+            lazy-init<!-- .element: class="fragment" data-fragment-index="12" -->
+            _: especifica si el bean se crea en el momento de arrancar la aplicación o se crea en el momento en el que
+            se va a utilizar por primera vez. Se puede definir a nivel de bean individual
+            o a nivel de un conjunto de beans (default-lazy-init)._<!-- .element: class="fragment" data-fragment-index="13" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * init-method
+            _: define que método será llamado para crear la instancia del bean.
+              Por convención será el constructor que corresponda, pero puede ser cualquier método._<!-- .element: class="fragment" data-fragment-index="1" -->
+          * <!-- .element: class="fragment" data-fragment-index="2" -->
+            destroy-method<!-- .element: class="fragment" data-fragment-index="3" -->
+            _: define que método será el que se ejecute al final del ciclo de vida del bean, antes de ser destruido._<!-- .element: class="fragment" data-fragment-index="4" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Singletons y factorías
+          * Spring ofrece una forma cómoda de crear instancias de objetos utilizando
+            factorías para ello.
+          * Por defecto, cada bean que se instancia es una única instancia común
+            a todas las veces que se utilice.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Factorías
+          * Por defecto, usa el constructor que mejor se adapte a los parámetros
+            que se definan por configuración.
+          * Se puede usar un _Factory Method_ de creación concreto.
+          * Se puede usar un _AbstractFactory_ para crear objetos.
+        </script>
+      </section>
+      <section >
+        <h2>Ejemplo</h2>
+        <pre><code data-trim>
+<beans>
+  <bean id="bean1" class="...">
+    <constructor-arg ref="bean2"></constructor-arg>
+  </bean>
+
+  <bean id="bean2" class="..." factory-method="makeInstance"></bean>
+
+  <bean id="bean3" class="..."
+    factory-bean="factoryService"
+    factory-method="makeInstanceBean3"
+  ></bean>
+
+  <bean id="bean4" class="..."
+    factory-bean="factoryService"
+    factory-method="makeInstanceBean4"
+  ></bean>
+
+  <bean id="facotryService" class="..."></bean>
+</beans>
+        </code></pre>
+      </section>
+
+      <section data-markdown>
+        <script type="text/template">
+          ## Configuración en múltiples ficheros
+          * Se pueden definir todos los beans en un único fichero de configuración.
+            Se acaba teniendo un fichero con miles de beans.
+          * Se pueden definir los beans agrupados siguiendo algún criterio y referenciarlos.
+        </script>
+      </section>
+      <section>
+        <h2>Ejemplo</h2>
+        <pre><code data-trim>
+<beans>
+  <bean id="bean1" class="..."></bean>
+  <bean id="bean2" class="..."></bean>
+
+  <import resource="services.xml"></import>
+  <import resource="resources/services.xml"></import>
+  <import resource="/resources/services.xml"></import>
+</beans>
+        </code></pre>
+      </section>
+    </section>
+
 
 
   </div>
