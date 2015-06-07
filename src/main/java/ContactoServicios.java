@@ -10,10 +10,10 @@ public class ContactoServicios {
     private int totalContactos;
     private int currentContacto;
 
-    public ContactoServicios(String agenda) {
+    public ContactoServicios() {
         contactoServicios = new Properties();
         try {
-            InputStream propertiesStream = new FileInputStream(agenda);
+            InputStream propertiesStream = new FileInputStream("agenda.properites");
             contactoServicios.load(propertiesStream);
             totalContactos = Integer.parseInt(contactoServicios.getProperty("total.contactos"));
             currentContacto = -1;
