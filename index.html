@@ -473,8 +473,74 @@
 <bean id="childBean" parent="parentBean">
   <property name="name" value="overrided"></property>
 </bean>
-        <h4>Paso 06</h4>
         </code></pre>
+        <h4>Paso 06</h4>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Inner Beans
+          * Al igual que en java, se pueden definir inner beans. <!-- .element: class="fragment" data-fragment-index="1" -->
+          * Al igual que en java, rara vez está justificado su uso. <!-- .element: class="fragment" data-fragment-index="2" -->
+        </script>
+      </section>
+      <section>
+        <h3>Ejemplo</h3>
+        <pre><code data-trim class="xml">
+<bean id="outer" class="my.class.MyBean">
+  <property name="target">
+    <bean class="my.class.OtherBean">
+      <property name="age" value="1"></property>
+    </bean>
+  </property>
+</bean>
+        </code></pre>
+        <h4 class="fragment" data-fragment-index="1">Esto no lo vais a ver en código</h4>
+      </section>
+      <section data-markdown>
+        <script type="text/javascript">
+          ### Juguemos con colecciones
+          * Hasta ahora hemos estado inyectando valores simples: String, int, boolean
+          * Pero también podemos inyectar cualquier tipo de colección.
+            * list
+            * map
+            * set
+        </script>
+      </section>
+      <section>
+        <h3>Ejemplo</h3>
+        <pre><code data-trim clas="xml">
+<bean id="coleccionBean" class="...">
+  <property name="aProperties">
+    <props>
+      <prop key="administrator" value="root"></prop>
+      <prop key="support" value="sat"></prop>
+      <prop key="developer" value="devel"></prop>
+    </props>
+  </property>
+
+  <property name="aList">
+    <list>
+      <value>un elemento de la lista</value>
+      <ref bean="aBean"></ref>
+    </list>
+  </property>
+
+  <property name="aMap">
+    <map>
+      <entry key="mapKey1" value="some value"></entry>
+      <entry key="mapKeyRef" value-ref="aBean"></entry>
+    </map>
+  </property>
+
+  <property name="aSet">
+    <set>
+      <value>un valor para el conjunto</value>
+      <ref bean="aBean"></ref>
+    </set>
+  </property>
+</bean>
+        </code></pre>
+        <h4>Paso 07</h4>
       </section>
     </section>
 
