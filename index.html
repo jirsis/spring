@@ -545,15 +545,43 @@
     </section>
 
 
-    <section data-markdown>
-      <script type="text/template">
-        ## SPeL
-        ### Spring Expression Language
-      </script>
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## SPeL
+          ### Spring Expression Language
+        </script>
+      </section>
+      <section >
+          <h3>SPeL</h3>
+          <ul>
+            <li>Es un lenguaje de expresiones que soporta el manipulado de objetos</li>
+            <li>Define una gran cantidad de opciones:</li>
+            <ul>
+              <li>definición de literales</li>
+              <li>expresiones booleanas, numéricas, …</li>
+              <li>ejecución de métodos</li>
+              <li>…</li>
+            </ul>
+          </ul>
+      </section>
+      <section>
+        <h3>SPeL</h3>
+        <ul>
+          <li>Nomenclatura quoted dotted: se diferencian los objetos con puntos.</li>
+          <li>Acceso a atributos de clase a través de getters y setters, pero parecido</li>
+          <li>La notación es #{SPel}</li>
+          <ul>
+            <li class="fragment" data-fragment-index="1">#{ 1 + 1}</li>
+            <li class="fragment" data-fragment-index="2">#{org.ejemplo.persona.edad}</li>
+            <li class="fragment" data-fragment-index="3">#{'hola'.endsWith('a')}</li>
+            <li class="fragment" data-fragment-index="4">#{ 3 > 4}</li>
+              <p><div class="fragment" data-fragment-index="5">MAAAL! como el SPeL lo definimos dentro de un xml,
+              la sintaxis tiene que ir como html para que se pueda interpretar bien. #{3 &amp;gt; 4}</div></p>
+          </ul>
+        </ul>
+      </section>
     </section>
-
-
-
 
   </div>
   </div>
