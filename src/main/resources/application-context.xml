@@ -1,67 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans 
-	xmlns="http://www.springframework.org/schema/beans" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context" 
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/context 
-		http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/util 
+		http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 	
-		<context:annotation-config/>
 	
-		<bean class="inyeccion.ExampleCollectionsBean">
-			<property name="entorno">
-				<props>
-					<prop key="pais">España</prop>
-					<prop key="ciudad">Madrid</prop>
-					<prop key="fecha">10 de junio de 2015</prop>
-				</props>
-			</property>
-			
-			<property name="nombres">
-				<list>
-					<value>Hoder</value>
-					<value>Hermond</value>
-					<value>Tyr</value>
-					<value>Vidar</value>
-					<value>Bestla</value>
-				</list>
-			</property>
-			
-			<property name="identificacion">
-				<map>
-					<entry key="xqhylruaac" value="Hoder"/>
-					<entry key="ssbgyeqmrc" value="Hermond"/>
-					<entry key="vqoccykrri" value="Tyr"/>
-					<entry key="cuvkvgwjaf" value="Vidar"/>
-					<entry key="oqcbdyufix" value="Bestla"/>
-				</map>
-			</property>
-			
-			<property name="escuderias">
-				<set>
-					<value>Mercedes</value>
-					<value>RedBull</value>
-					<value>Ferrari</value>
-					<value>McLaren</value>
-					<value>Lotus</value>
-					<value>Williams</value>
-					<value>Toro Rosso</value>
-					<value>Force India</value>
-					<value>Sauber</value>
-					<value>Manor</value>
-				</set>
-			</property>
-			
-			<property name="frutas">
-				<set>
-					<value>Cereza</value>
-					<value>Albaricoque</value>
-					<value>Manzana</value>
-					<value>Pera</value>
-				</set>
-			</property>
-		</bean>
+	<bean id="personaBean" class="spel.Persona" 
+		p:nombre="Carlos"
+		p:apellido="Hernández Flores" 
+		p:edad="23"/>
+	
+	
+	<bean id="persona" class="spel.Persona" 
+		p:nombre="Carlos"
+		p:apellido="Hernández Flores" 
+		p:edad="#{new java.lang.Double(T(java.lang.Math).random()*20+15).intValue()}"/> 
+	
+	<bean id="hermano" class="spel.Persona"
+		p:nombre="Antonio"
+		p:apellido="#{persona.apellido}"
+		p:edad="#{new java.lang.Integer(persona.edad) &lt; 30? new java.lang.Integer(persona.edad) + 4: new java.lang.Integer(persona.edad)-4}"/>
 
 </beans>
