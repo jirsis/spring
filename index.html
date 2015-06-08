@@ -445,11 +445,39 @@
       </section>
     </section>
 
-    <section data-markdown>
-      <script type="text/template">
-        ## Beans extra
-      </script>
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Beans extra
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Herencia de beans
+          * Al igual que ocurre con las clases, existe la herencia de beans en Spring.
+          * Se define un bean abstracto y se hace referencia
+            desde los beans hijo, con el atributo parent.
+          * Es necesario estudiar con mucho cuidado cuando es realmente necesario
+            heredar de un bean.
+          * Sólo debe hacerse para reutilizar configuración y particularizarla según interese.
+        </script>
+      </section>
+      <section>
+        <h3>Ejemplo</h3>
+        <pre><code data-trim class="xml">
+<bean id="parentBean" abstract="true" class="my.class.MyParentBean">
+  <property name="name" value="parent"></property>
+  <property name="age" value="1"></property>
+</bean>
+
+<bean id="childBean" parent="parentBean">
+  <property name="name" value="overrided"></property>
+</bean>
+        <h4>Paso 06</h4>
+        </code></pre>
+      </section>
     </section>
+
 
     <section data-markdown>
       <script type="text/template">
