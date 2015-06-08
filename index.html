@@ -340,6 +340,87 @@
       </section>
     </section>
 
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Ciclo de vida de los beans
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Los beans son como decía el anuncio
+          * Crean
+          * Inicializan
+          * Usan
+          * Destruyen
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Spring nos permite añadir código y comportamiento en fases concretas.
+          * Inicialización <!-- .element: class="fragment" data-fragment-index="1" -->
+            * implementando interface InitializingBean <!-- .element: class="fragment" data-fragment-index="2" -->
+              * obliga a implementar el método afterPropertiesSet() <!-- .element: class="fragment" data-fragment-index="3" -->
+              * Acopla nuestro código al código de Spring == MALO <!-- .element: class="fragment" data-fragment-index="4" -->
+            * anotando el método correspondiente con @PostConstructor <!-- .element: class="fragment" data-fragment-index="5" -->
+              * Se ejecutará justo después de haber llamado al constructor de la clase <!-- .element: class="fragment" data-fragment-index="6" -->
+              * Es muchísimo más limpio. <!-- .element: class="fragment" data-fragment-index="7" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Inicialización II
+          * configurando el init-method a la hora de definir el bean
+            * por defecto intentará ejecutar el método init()<!-- .element: class="fragment" data-fragment-index="1" -->
+            * se aconseja sobreescribirlo en la configuración del bean<!-- .element: class="fragment" data-fragment-index="2" -->
+            * se puede configurar a nivel de conjunto de beans con default-init-method<!-- .element: class="fragment" data-fragment-index="3" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Destrucción
+          * implementando interfaz DisposableBean
+            * obliga a implementar el método destroy()
+          * anotando el método con @PreDestroy
+            * se ejecuta justo antes de poner a disposición del GC el objeto
+          * configurando el bean con un destroy-method
+        </script>
+        <section data-markdown>
+          <script type="text/template">
+            ### Juguemos un poco
+            #### Paso 05 
+          </script>
+        </section>
+      </section>
+
+    </section>
+
+    <section data-markdown>
+      <script type="text/template">
+        ## Scopes de los beans
+      </script>
+    </section>
+
+    <section data-markdown>
+      <script type="text/template">
+        ## Properties + Spring
+      </script>
+    </section>
+
+    <section data-markdown>
+      <script type="text/template">
+        ## Beans extra
+      </script>
+    </section>
+
+    <section data-markdown>
+      <script type="text/template">
+        ## SPeL
+        ### Spring Expression Language
+      </script>
+    </section>
+
+
 
 
   </div>
