@@ -292,7 +292,7 @@
       </section>
       <section >
         <h2>Ejemplo</h2>
-        <pre><code data-trim>
+        <pre><code class="xml" data-trim>
 <beans>
   <bean id="bean1" class="...">
     <constructor-arg ref="bean2"></constructor-arg>
@@ -326,7 +326,7 @@
       </section>
       <section>
         <h2>Ejemplo</h2>
-        <pre><code data-trim>
+        <pre><code class="xml" data-trim>
 <beans>
   <bean id="bean1" class="..."></bean>
   <bean id="bean2" class="..."></bean>
@@ -388,23 +388,61 @@
         <section data-markdown>
           <script type="text/template">
             ### Juguemos un poco
-            #### Paso 05 
+            #### Paso 05
           </script>
         </section>
       </section>
 
     </section>
 
-    <section data-markdown>
-      <script type="text/template">
-        ## Scopes de los beans
-      </script>
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Scopes de los beans
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          #### Cada bean tiene un alcance y una forma de instanciarse según el scope al que esté asociado.
+          * singleton: únicamente existirá una instancia del objeto en IoC.
+            Es la opción por defecto. <!-- .element: class="fragment" data-fragment-index="1" -->
+          * prototype: se crea una instancia cada vez que sea necesario inyectar
+            un bean. <!-- .element: class="fragment" data-fragment-index="3" -->
+          * scopes disponibles en implementaciones web de ApplicationContext<!-- .element: class="fragment" data-fragment-index="4" -->
+            * request: se crea un nuevo bean en cada petición. <!-- .element: class="fragment" data-fragment-index="4" -->
+            * session: se crea un nuevo bean por cada sesión de HTTP única. <!-- .element: class="fragment" data-fragment-index="5" -->
+            * global-session: se asemeja al concepto que se maneja en Portlets,
+              en el resto de casos se comporta como session. <!-- .element: class="fragment" data-fragment-index="6" -->
+        </script>
+      </section>
     </section>
 
-    <section data-markdown>
-      <script type="text/template">
-        ## Properties + Spring
-      </script>
+    <section >
+      <section data-markdown>
+        <script type="text/template">
+          ## Properties + Spring
+          ### se pueden definir variables en distintos ficheros y utilizarlos es muy sencillo
+        </script>
+      </section>
+      <section >
+          <h3>Pasos a seguir</h3>
+          1. definir un bean con
+          <pre><code class="xml" data-trim>
+            <context:property-placeholder location="classpath:com/mis.properties"/>
+          </code></pre>
+          2. anotar un atributo con
+          <pre><code class="java" data-trim>
+            @Value("${full.name.property:defaultValue}")
+          </code></pre>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Carga de properties
+          * propiedades del sistema
+          * propiedades del entorno
+          * ficheros de properties
+        </script>
+      </section>
     </section>
 
     <section data-markdown>
