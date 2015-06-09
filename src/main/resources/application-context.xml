@@ -21,8 +21,8 @@
 		p:apellido="Hernández Flores" 
 		p:edad="#{new java.lang.Double(T(java.lang.Math).random()*20+15).intValue()}"/> 
 	
-	<bean id="hermano" class="spel.Persona"
-		p:nombre="Antonio"
+	<bean id="hermana" class="spel.Persona"
+		p:nombre="Lucía"
 		p:apellido="#{persona.apellido}"
 		p:edad="#{new java.lang.Integer(persona.edad) &lt; 30? new java.lang.Integer(persona.edad) + 4: new java.lang.Integer(persona.edad)-4}"/>
 
