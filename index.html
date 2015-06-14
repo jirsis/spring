@@ -10,7 +10,7 @@
 
 <link rel="stylesheet" type="text/css" href="http://spring.io/css/main.css">
 <link rel="stylesheet" href="bower_components/reveal.js/css/reveal.css">
-<link rel="stylesheet" href="bower_components/reveal.js/css/theme/league.css" id="theme">
+<link rel="stylesheet" href="bower_components/reveal.js/css/theme/moon.css" id="theme">
 <link rel="stylesheet" href="lib/css/zenburn.css">
 
 
@@ -38,8 +38,6 @@
           * ApplicationContext vs. BeanFactory
           * Ciclo de vida de los beans y más configuración
           * Testeo + inyección de dependencias
-          * Spring data + JPA
-          * Spring batch + schedule
         </script>
       </section>
     </section>
@@ -582,6 +580,133 @@
         </ul>
       </section>
     </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## ¿Pero cómo usamos Spring en nuestro código?
+          ### ¿Cómo hacemos las inyecciones?
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Spring tiene que encontrar los beans
+          * Es necesario definir un component-scan e indicarle que clases son beans
+            * buscará de forma recursiva en el paquete que se le indica
+            * incluirá y excluirá beans según los criterios que le indiquemos
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Criterios para incluir/excluir beans en el IoC
+          * annotation: los candidatos tendrán que tener la anotación concreta
+          * assignable: los candidatos implentarán/heredarán una interface/clase concreta
+          * aspectj: se definirá una expresión aspectJ con la que tendrán que validarse los beans
+          * regex: los beans cumplirán con una expresión regular
+          * custom: se define un componente que será el que evalúe que clases son beans y cuales no.
+            Este componente tiene ser de tipo org.springframework.core.type.TypeFilter.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Stereotype annotations
+          * component-scan tiene comportamiento por defecto
+          * si no se define ninguna regla para localizar los beans, el solito instanciará algunos
+          * para ello tenemos que anotarlos con algún stereotype de los que nos ofrece Spring
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ###Stereotype annotations
+          * @Component
+            _: es el genérico, es una simple forma de anotar componentes_<!-- .element: class="fragment" data-fragment-index="1" -->
+          * @Repository<!-- .element: class="fragment" data-fragment-index="2" -->
+            _: especialización orientada a persistencia de datos, típicamente DAOs_<!-- .element: class="fragment" data-fragment-index="3" -->
+          * @Service<!-- .element: class="fragment" data-fragment-index="4" -->
+              _: especialización orientada a beans de negocio_<!-- .element: class="fragment" data-fragment-index="5" -->
+          * @Controller<!-- .element: class="fragment" data-fragment-index="6" -->
+              _: especialización orientada a servlets y mapeos de respuestas_<!-- .element: class="fragment" data-fragment-index="7" -->
+        </script>
+      </section>
+
+      <section data-markdown>
+        <script type="text/template">
+          ###Configuración basada en Java
+          * Además de la definición y configuración de beans en xml también se puede hacer
+            directamente con java.
+          * Para ello, hay que anotar nuestras clases con @Configuration. Con ello
+            indicamos a Spring que estas clases son capaces de generar distintos tipos de beans.
+          * Todos los métodos que son capaces de crear beans tienen que estar anotados con @Bean
+            y devolver algún tipo de objeto.
+        </script>
+      </section>
+
+      <section >
+        <pre><code data-trim class="java">
+@Configuration
+public class AppConfig {
+
+   @Bean
+   public MyBean createMyBean(){
+     return new MyBean();
+   }
+}
+        </code></pre>
+
+        <pre><code data-trim class="xml">
+<beans>
+  <bean id="myBean" class="MyBean"></bean>
+</beans>
+        </code></pre>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### ¿Cuándo usamos una forma u otra?
+          * Utilizar estilos mixtos, configuración Java + XML,
+            puede simplificar la creación y mantenimiento de algún tipo de _bean_.
+          * Intentar usar lo máximo posible CoC.
+          * Configurar xmls para que se carguen beans de forma automática.
+          * Código más limpio
+          * Beans que tengan que cambiar de configuración, mejor en XML.
+        </script>
+      </section>
+    </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Testing
+          ### jUnit + mocks + Spring
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * @RunWith(SpringJUnit4ClassRunner.class)
+          * @ContextConfiguration
+            * si no se define nada más, se busca en el paquete del test
+              con el mismo nombre de la clase .xml
+            * se puede modificar definiendo la ruta del classpath (locations, classpath, classes)
+        </script>
+      </section>
+      <section>
+        <pre>
+          <code data-trim class="java">
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:/mi-clase-test.xml")
+public class MiClaseTest{
+  @Autowired
+  private MiClase miClase;
+
+  @Test
+  public void testMiMetodo(){
+    assertEquals(10, miClase.getMiMetodo());
+  }
+}
+          </code>
+        </pre>
+      </section>
+    </section>
+
 
   </div>
   </div>
