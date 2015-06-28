@@ -1,7 +1,6 @@
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.FileInputStream;
 import java.util.Properties;
 
 public class ContactoServicios {
@@ -13,7 +12,7 @@ public class ContactoServicios {
     public ContactoServicios() {
         contactoServicios = new Properties();
         try {
-            InputStream propertiesStream = new FileInputStream("agenda.properites");
+            InputStream propertiesStream = getClass().getClassLoader().getResourceAsStream("agenda.properties");
             contactoServicios.load(propertiesStream);
             totalContactos = Integer.parseInt(contactoServicios.getProperty("total.contactos"));
             currentContacto = -1;
