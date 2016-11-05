@@ -1,0 +1,740 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title>Spring v4.x</title>
+
+<meta name="description" content="spring framework">
+<meta name="author" content="J. Ignacio Reta Sabarrós">
+
+<link rel="stylesheet" type="text/css" href="http://spring.io/css/main.css">
+<link rel="stylesheet" href="bower_components/reveal.js/css/reveal.css">
+<link rel="stylesheet" href="bower_components/reveal.js/css/theme/moon.css" id="theme">
+<link rel="stylesheet" href="lib/css/zenburn.css">
+
+
+</head>
+
+<body>
+  <div class="reveal">
+  <div class="slides">
+    <section>
+      <section>
+        <div class="icon icon-spring-logo-big homepage-icon"></div>
+
+        <h1>Spring Framework</h1>
+        <h3>Ayuda para el desarrollo de aplicaciones y contenedor de inyección de dependencias</h3>
+      </section>
+      <section>
+        Todos los ejemplos que vamos a enseñar son código java. <br>
+        Todos los conceptos son aplicables a otras tecnologías que usen
+        el paradigma de orientación a objetos.
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Vamos a hablar de:
+          * Inyección de dependencias
+          * ApplicationContext vs. BeanFactory
+          * Ciclo de vida de los beans y más configuración
+          * Testeo + inyección de dependencias
+        </script>
+      </section>
+    </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Comencemos con inyección de dependencias
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Vamos a ver un ejemplo muy sencillo de inyección de dependencias.
+          * Tenemos una agenda de contactos <!-- .element: class="fragment" data-fragment-index="1" -->
+          * Queremos imprimir toda la agenda de contactos <!-- .element: class="fragment" data-fragment-index="2" -->
+          </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Implementación
+          * Nuestra agenda será un properties <!-- .element: class="fragment" data-fragment-index="1" -->
+          * Necesitamos "algo" para mostrar por pantalla la información de todos los contactos <!-- .element: class="fragment" data-fragment-index="2" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## ¡A JUGAR!
+          ### Paso 01
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * En nuestro ejemplo lo hemos implementado dentro del constructor de la clase
+          * Supongamos ahora que otros desarrolladores quieren utilizar la funcionalidad
+            pero <!-- .element: class="fragment" data-fragment-index="1" -->
+            * Usan un formato de fichero distinto al mío <!-- .element: class="fragment" data-fragment-index="2" -->
+            **UPS!** <!-- .element: class="fragment" data-fragment-index="4" -->
+            * Usan el mismo formato, pero el fichero se llama de distinta manera o está
+              en otro directorio <!-- .element: class="fragment" data-fragment-index="5" -->
+            **UPS!**<!-- .element: class="fragment" data-fragment-index="6" -->
+            * Lo tienen en una base de datos <!-- .element: class="fragment" data-fragment-index="7" -->
+            **UPS! UPS! UPS! GULP! ARGGG! OMFG!! ** <!-- .element: class="fragment" data-fragment-index="8" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Podemos definir ContactoServicios como una interfaz e implementar distintos comportamientos según los requisitos
+          * Pero seguimos teniendo que crear el objeto de la implementación concreta en algún sitio. <!-- .element: class="fragment" data-fragment-index="1" -->
+          * Resumiendo tendríamos algo que se parece a... <!-- .element: class="fragment" data-fragment-index="1" -->
+        </script>
+      </section>
+      <section>
+        <img src="img/interfaz.png"/>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## ¡A JUGAR!
+          ### Paso 02
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * Podemos tener muchas implementaciones de ContactoDAO y
+            conseguir que todas funcionen gracias a referencias solamente a la interfaz.
+          * Si queremos poder usar el programa con las diferentes implementaciones
+            según la situación sin que afecte a Agenda, necesitamos un mecanismo
+            que ensamble la implementación que necesitamos en cada caso.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * Para resolver este problema existe toda una serie de frameworks ligeros
+            como Spring Framework, Google Guice o PicoContainer.
+          * Todos ellos usan la Inversión de Control (IoC) para abordar el problema.
+          * La idea básica es que se creará un elemento extra que será el encargado
+            de poblar el campo ContactosDAO de la clase Agenda con la implementación
+            correcta.
+          * La representación de la aplicación quedaría algo similar a… 
+        </script>
+      </section>
+      <section>
+        <img src="img/inyectorDependencias.png"/>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * Hay 3 tipos de inyección de dependencies
+            * basadas en contructor
+            * basadas en setters
+            * basadas en interfaces
+          * La mayoría de los frameworks soportan las basadas en constructor y setters
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Veamos como queda nuestro código con Spring Framework
+          ### Paso 03
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * La inyección de dependencias nos permite mantener nuestro código débilmente
+            acoplado, ganando en mantenibilidad.
+          * Además, permite una manera sencilla de construir test introduciendo clases
+            mock o clases específicas para forzar determinados comportamientos.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## ¿Dónde está el éxito de Spring?
+          ### ¿Se debe únicamente a la facilidad de mantenimiento y de construcción de tests?
+          * Es un motivo de mucho peso
+          * Pero no es el único
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * Creación de objetos mucho más complejos con muchas dependencias
+          * Creación de objetos de lógica (y posterior destrucción) de forma innecesarias
+            en entornos altamente concurrentes como aplicaciones web:
+            * Clases de lógica sin estado
+            * Clases de lógica con estado
+            * Clases de lógica con estado en cada ejecución
+            * Facilidad de integración con otros frameworks/tecnologías
+              * JMS
+              * JDBC
+              * RestFULL
+              * …
+        </script>
+      </section>
+    </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Introducción a Spring
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ##IoC ofrecidos por Spring
+          * BeanFactory
+          * ApplicationContext
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## ApplicationContext vs BeanFactory
+          * Proporciona soporte I18n para mensajes de texto
+          * Proporciona forma genérica de cargar recursos, como imágenes
+          * Puede publicar eventos a beans que están registrados como _listeners_
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Tipos de _BeanFactory_
+          * XmlBeanFactory (indicará como se cargará el xml de definición)
+            * ClassPathResource
+            * FileSystemResource
+            * InputStreamResource
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Ejemplo de BeanFactory
+          <div>Paso 04 - BeanFactoryMain</div>
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Tipos de _ApplicationContext_
+          * ClassPathXmlApplicationContext
+          * FileSystemXmlApplicationContext
+          * XmlWebApplicationContext
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Ejemplo de ApplicationContext
+          <div >Paso 04 - ApplicationContextMain</div>
+        </script>
+      </section>
+      <section>
+        <h2>Relación entre ellos</h2>
+        <img src="img/jerarquiaBeans.png"/>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Configuración basada en XML
+          * <!-- .element: class="fragment" data-fragment-index="1" -->
+            id/name<!-- .element: class="fragment" data-fragment-index="2" -->
+            _: nombre por el que se hará referencia al bean.
+            En caso de no definir ninguno, se sigue la convención del nombre de
+            la clase con la primera letra en minúscula._<!-- .element: class="fragment" data-fragment-index="3" -->
+          * <!-- .element: class="fragment" data-fragment-index="4" -->
+            class<!-- .element: class="fragment" data-fragment-index="5" -->
+            _: nombre completo de la clase que implementará el bean en cuestión._<!-- .element: class="fragment" data-fragment-index="6" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * scope
+            _: "alcance" que tiene el bean que se define._<!-- .element: class="fragment" data-fragment-index="1" -->
+          * <!-- .element: class="fragment" data-fragment-index="2" -->
+            constructor-arg<!-- .element: class="fragment" data-fragment-index="3" -->
+            _: definición de los argumentos que serán necesarios proporcionar al constructor de la clase._<!-- .element: class="fragment" data-fragment-index="4" -->
+          * <!-- .element: class="fragment" data-fragment-index="5" -->
+            properties<!-- .element: class="fragment" data-fragment-index="6" -->
+            _: forma de invocar la inyección por dependencias a través de los setters. _<!-- .element: class="fragment" data-fragment-index="7" -->
+          * <!-- .element: class="fragment" data-fragment-index="8" -->
+            autowire<!-- .element: class="fragment" data-fragment-index="9" -->
+            _: define la forma de resolver las depenencias en las relaciones de objetos._<!-- .element: class="fragment" data-fragment-index="10" -->
+          * <!-- .element: class="fragment" data-fragment-index="11" -->
+            lazy-init<!-- .element: class="fragment" data-fragment-index="12" -->
+            _: especifica si el bean se crea en el momento de arrancar la aplicación o se crea en el momento en el que
+            se va a utilizar por primera vez. Se puede definir a nivel de bean individual
+            o a nivel de un conjunto de beans (default-lazy-init)._<!-- .element: class="fragment" data-fragment-index="13" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * init-method
+            _: define que método será llamado para crear la instancia del bean.
+              Por convención será el constructor que corresponda, pero puede ser cualquier método._<!-- .element: class="fragment" data-fragment-index="1" -->
+          * <!-- .element: class="fragment" data-fragment-index="2" -->
+            destroy-method<!-- .element: class="fragment" data-fragment-index="3" -->
+            _: define que método será el que se ejecute al final del ciclo de vida del bean, antes de ser destruido._<!-- .element: class="fragment" data-fragment-index="4" -->
+        </script>
+      </section>
+      <section>
+        <h3>Ejemplo</h3>
+        <div>Paso 04 - ConfigXmlMain</div>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Singletons y factorías
+          * Spring ofrece una forma cómoda de crear instancias de objetos utilizando
+            factorías para ello.
+          * Por defecto, cada bean que se instancia es una única instancia común
+            a todas las veces que se utilice.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Factorías
+          * Por defecto, usa el constructor que mejor se adapte a los parámetros
+            que se definan por configuración.
+          * Se puede usar un _Factory Method_ de creación concreto.
+          * Se puede usar un _AbstractFactory_ para crear objetos.
+        </script>
+      </section>
+      <section >
+        <h2>Ejemplo</h2>
+        <pre><code class="xml" data-trim>
+<beans>
+  <bean id="bean1" class="...">
+    <constructor-arg ref="bean2"></constructor-arg>
+  </bean>
+
+  <bean id="bean2" class="..." factory-method="makeInstance"></bean>
+
+  <bean id="bean3" class="..."
+    factory-bean="factoryService"
+    factory-method="makeInstanceBean3"
+  ></bean>
+
+  <bean id="bean4" class="..."
+    factory-bean="factoryService"
+    factory-method="makeInstanceBean4"
+  ></bean>
+
+  <bean id="facotryService" class="..."></bean>
+</beans>
+        </code></pre>
+        <div>Paso 04 - FactoryMain</div>
+      </section>
+
+      <section data-markdown>
+        <script type="text/template">
+          ## Configuración en múltiples ficheros
+          * Se pueden definir todos los beans en un único fichero de configuración.
+            Se acaba teniendo un fichero con miles de beans.
+          * Se pueden definir los beans agrupados siguiendo algún criterio y referenciarlos.
+        </script>
+      </section>
+      <section>
+        <h2>Ejemplo</h2>
+        <pre><code class="xml" data-trim>
+<beans>
+  <bean id="bean1" class="..."></bean>
+  <bean id="bean2" class="..."></bean>
+
+  <import resource="services.xml"></import>
+  <import resource="resources/services.xml"></import>
+  <import resource="/resources/services.xml"></import>
+</beans>
+        </code></pre>
+        <div>Paso 04 - CompositeConfigMain</div>
+      </section>
+    </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Ciclo de vida de los beans
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Los beans son como decía el anuncio
+          * Crean
+          * Inicializan
+          * Usan
+          * Destruyen
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Spring nos permite añadir código y comportamiento en fases concretas.
+          * Inicialización <!-- .element: class="fragment" data-fragment-index="1" -->
+            * implementando interface InitializingBean <!-- .element: class="fragment" data-fragment-index="2" -->
+              * obliga a implementar el método afterPropertiesSet() <!-- .element: class="fragment" data-fragment-index="3" -->
+              * Acopla nuestro código al código de Spring == MALO <!-- .element: class="fragment" data-fragment-index="4" -->
+            * anotando el método correspondiente con @PostConstructor <!-- .element: class="fragment" data-fragment-index="5" -->
+              * Se ejecutará justo después de haber llamado al constructor de la clase <!-- .element: class="fragment" data-fragment-index="6" -->
+              * Es muchísimo más limpio. <!-- .element: class="fragment" data-fragment-index="7" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Inicialización II
+          * configurando el init-method a la hora de definir el bean
+            * por defecto intentará ejecutar el método init()<!-- .element: class="fragment" data-fragment-index="1" -->
+            * se aconseja sobreescribirlo en la configuración del bean<!-- .element: class="fragment" data-fragment-index="2" -->
+            * se puede configurar a nivel de conjunto de beans con default-init-method<!-- .element: class="fragment" data-fragment-index="3" -->
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Destrucción
+          * implementando interfaz DisposableBean
+            * obliga a implementar el método destroy()
+          * anotando el método con @PreDestroy
+            * se ejecuta justo antes de poner a disposición del GC el objeto
+          * configurando el bean con un destroy-method
+        </script>
+        <section data-markdown>
+          <script type="text/template">
+            ### Juguemos un poco
+            #### Paso 05
+          </script>
+        </section>
+      </section>
+
+    </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Scopes de los beans
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          #### Cada bean tiene un alcance y una forma de instanciarse según el scope al que esté asociado.
+          * singleton: únicamente existirá una instancia del objeto en IoC.
+            Es la opción por defecto. <!-- .element: class="fragment" data-fragment-index="1" -->
+          * prototype: se crea una instancia cada vez que sea necesario inyectar
+            un bean. <!-- .element: class="fragment" data-fragment-index="3" -->
+          * scopes disponibles en implementaciones web de ApplicationContext<!-- .element: class="fragment" data-fragment-index="4" -->
+            * request: se crea un nuevo bean en cada petición. <!-- .element: class="fragment" data-fragment-index="4" -->
+            * session: se crea un nuevo bean por cada sesión de HTTP única. <!-- .element: class="fragment" data-fragment-index="5" -->
+            * global-session: se asemeja al concepto que se maneja en Portlets,
+              en el resto de casos se comporta como session. <!-- .element: class="fragment" data-fragment-index="6" -->
+        </script>
+      </section>
+    </section>
+
+    <section >
+      <section data-markdown>
+        <script type="text/template">
+          ## Properties + Spring
+          ### se pueden definir variables en distintos ficheros y utilizarlos es muy sencillo
+        </script>
+      </section>
+      <section >
+          <h3>Pasos a seguir</h3>
+          1. definir un bean con
+          <pre><code class="xml" data-trim>
+            <context:property-placeholder location="classpath:com/mis.properties"/>
+          </code></pre>
+          2. anotar un atributo con
+          <pre><code class="java" data-trim>
+            @Value("${full.name.property:defaultValue}")
+          </code></pre>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Carga de properties
+          * propiedades del sistema
+          * propiedades del entorno
+          * ficheros de properties
+        </script>
+      </section>
+    </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Beans extra
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Herencia de beans
+          * Al igual que ocurre con las clases, existe la herencia de beans en Spring.
+          * Se define un bean abstracto y se hace referencia
+            desde los beans hijo, con el atributo parent.
+          * Es necesario estudiar con mucho cuidado cuando es realmente necesario
+            heredar de un bean.
+          * Sólo debe hacerse para reutilizar configuración y particularizarla según interese.
+        </script>
+      </section>
+      <section>
+        <h3>Ejemplo</h3>
+        <pre><code data-trim class="xml">
+<bean id="parentBean" abstract="true" class="my.class.MyParentBean">
+  <property name="name" value="parent"></property>
+  <property name="age" value="1"></property>
+</bean>
+
+<bean id="childBean" parent="parentBean">
+  <property name="name" value="overrided"></property>
+</bean>
+        </code></pre>
+        <h4>Paso 06</h4>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Inner Beans
+          * Al igual que en java, se pueden definir inner beans. <!-- .element: class="fragment" data-fragment-index="1" -->
+          * Al igual que en java, rara vez está justificado su uso. <!-- .element: class="fragment" data-fragment-index="2" -->
+        </script>
+      </section>
+      <section>
+        <h3>Ejemplo</h3>
+        <pre><code data-trim class="xml">
+<bean id="outer" class="my.class.MyBean">
+  <property name="target">
+    <bean class="my.class.OtherBean">
+      <property name="age" value="1"></property>
+    </bean>
+  </property>
+</bean>
+        </code></pre>
+        <h4 class="fragment" data-fragment-index="1">Esto no lo vais a ver en código</h4>
+      </section>
+      <section data-markdown>
+        <script type="text/javascript">
+          ### Juguemos con colecciones
+          * Hasta ahora hemos estado inyectando valores simples: String, int, boolean
+          * Pero también podemos inyectar cualquier tipo de colección.
+            * list
+            * map
+            * set
+        </script>
+      </section>
+      <section>
+        <h3>Ejemplo</h3>
+        <pre><code data-trim clas="xml">
+<bean id="coleccionBean" class="...">
+  <property name="aProperties">
+    <props>
+      <prop key="administrator" value="root"></prop>
+      <prop key="support" value="sat"></prop>
+      <prop key="developer" value="devel"></prop>
+    </props>
+  </property>
+
+  <property name="aList">
+    <list>
+      <value>un elemento de la lista</value>
+      <ref bean="aBean"></ref>
+    </list>
+  </property>
+
+  <property name="aMap">
+    <map>
+      <entry key="mapKey1" value="some value"></entry>
+      <entry key="mapKeyRef" value-ref="aBean"></entry>
+    </map>
+  </property>
+
+  <property name="aSet">
+    <set>
+      <value>un valor para el conjunto</value>
+      <ref bean="aBean"></ref>
+    </set>
+  </property>
+</bean>
+        </code></pre>
+        <h4>Paso 07</h4>
+      </section>
+    </section>
+
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## SPeL
+          ### Spring Expression Language
+        </script>
+      </section>
+      <section >
+          <h3>SPeL</h3>
+          <ul>
+            <li>Es un lenguaje de expresiones que soporta el manipulado de objetos</li>
+            <li>Define una gran cantidad de opciones:</li>
+            <ul>
+              <li>definición de literales</li>
+              <li>expresiones booleanas, numéricas, …</li>
+              <li>ejecución de métodos</li>
+              <li>…</li>
+            </ul>
+          </ul>
+      </section>
+      <section>
+        <h3>SPeL</h3>
+        <ul>
+          <li>Nomenclatura quoted dotted: se diferencian los objetos con puntos.</li>
+          <li>La notación es #{SPel}</li>
+          <ul>
+            <li class="fragment" data-fragment-index="1">#{ 1 + 1}</li>
+            <li class="fragment" data-fragment-index="2">#{org.ejemplo.persona.edad}</li>
+            <li class="fragment" data-fragment-index="3">#{'hola'.endsWith('a')}</li>
+            <li class="fragment" data-fragment-index="4">#{ 3 > 4}</li>
+              <p><div class="fragment" data-fragment-index="5">MAAAL! como el SPeL lo definimos dentro de un xml,
+              la sintaxis tiene que ir como html para que se pueda interpretar bien. #{3 &amp;gt; 4}</div></p>
+            <li class="fragment" data-fragment-index="6">Ejemplos PASO 8</li>
+          </ul>
+        </ul>
+      </section>
+    </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## ¿Pero cómo usamos Spring en nuestro código?
+          ### ¿Cómo hacemos las inyecciones?
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Spring tiene que encontrar los beans
+          * Es necesario definir un component-scan e indicarle que clases son beans
+            * buscará de forma recursiva en el paquete que se le indica
+            * incluirá y excluirá beans según los criterios que le indiquemos
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Criterios para incluir/excluir beans en el IoC
+          * annotation: los candidatos tendrán que tener la anotación concreta
+          * assignable: los candidatos implentarán/heredarán una interface/clase concreta
+          * aspectj: se definirá una expresión aspectJ con la que tendrán que validarse los beans
+          * regex: los beans cumplirán con una expresión regular
+          * custom: se define un componente que será el que evalúe que clases son beans y cuales no.
+            Este componente tiene ser de tipo org.springframework.core.type.TypeFilter.
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### Stereotype annotations
+          * component-scan tiene comportamiento por defecto
+          * si no se define ninguna regla para localizar los beans, el solito instanciará algunos
+          * para ello tenemos que anotarlos con algún stereotype de los que nos ofrece Spring
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ###Stereotype annotations
+          * @Component
+            _: es el genérico, es una simple forma de anotar componentes_<!-- .element: class="fragment" data-fragment-index="1" -->
+          * @Repository<!-- .element: class="fragment" data-fragment-index="2" -->
+            _: especialización orientada a persistencia de datos, típicamente DAOs_<!-- .element: class="fragment" data-fragment-index="3" -->
+          * @Service<!-- .element: class="fragment" data-fragment-index="4" -->
+              _: especialización orientada a beans de negocio_<!-- .element: class="fragment" data-fragment-index="5" -->
+          * @Controller<!-- .element: class="fragment" data-fragment-index="6" -->
+              _: especialización orientada a servlets y mapeos de respuestas_<!-- .element: class="fragment" data-fragment-index="7" -->
+        </script>
+      </section>
+
+      <section data-markdown>
+        <script type="text/template">
+          ###Configuración basada en Java
+          * Además de la definición y configuración de beans en xml también se puede hacer
+            directamente con java.
+          * Para ello, hay que anotar nuestras clases con @Configuration. Con ello
+            indicamos a Spring que estas clases son capaces de generar distintos tipos de beans.
+          * Todos los métodos que son capaces de crear beans tienen que estar anotados con @Bean
+            y devolver algún tipo de objeto.
+        </script>
+      </section>
+
+      <section >
+        <pre><code data-trim class="java">
+@Configuration
+public class AppConfig {
+
+   @Bean
+   public MyBean createMyBean(){
+     return new MyBean();
+   }
+}
+        </code></pre>
+
+        <pre><code data-trim class="xml">
+<beans>
+  <bean id="myBean" class="MyBean"></bean>
+</beans>
+        </code></pre>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          ### ¿Cuándo usamos una forma u otra?
+          * Utilizar estilos mixtos, configuración Java + XML,
+            puede simplificar la creación y mantenimiento de algún tipo de _bean_.
+          * Intentar usar lo máximo posible CoC.
+          * Configurar xmls para que se carguen beans de forma automática.
+          * Código más limpio
+          * Beans que tengan que cambiar de configuración, mejor en XML.
+        </script>
+      </section>
+    </section>
+
+    <section>
+      <section data-markdown>
+        <script type="text/template">
+          ## Testing
+          ### jUnit + mocks + Spring
+        </script>
+      </section>
+      <section data-markdown>
+        <script type="text/template">
+          * @RunWith(SpringJUnit4ClassRunner.class)
+          * @ContextConfiguration
+            * si no se define nada más, se busca en el paquete del test
+              con el mismo nombre de la clase .xml
+            * se puede modificar definiendo la ruta del classpath (locations, classpath, classes)
+        </script>
+      </section>
+      <section>
+        <pre>
+          <code data-trim class="java">
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration("classpath:/mi-clase-test.xml")
+public class MiClaseTest{
+  @Autowired
+  private MiClase miClase;
+
+  @Test
+  public void testMiMetodo(){
+    assertEquals(10, miClase.getMiMetodo());
+  }
+}
+          </code>
+        </pre>
+      </section>
+    </section>
+
+
+  </div>
+  </div>
+  <script type="text/javascript" src="bower_components/reveal.js/lib/js/head.min.js"></script>
+  <script type="text/javascript" src="bower_components/reveal.js/js/reveal.js"></script>
+
+  <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+          controls: true,
+          progress: true,
+          history: true,
+          keyboard: true,
+          center: true,
+          hideAddressBar: true,
+
+          theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+          transition: Reveal.getQueryHash().transition || 'concave', // default/cube/page/concave/zoom/linear/none
+
+          dependencies: [
+  					{ src: 'bower_components/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+  					{ src: 'bower_components/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'bower_components/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+            { src: 'bower_components/reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+  					{ src: 'bower_components/reveal.js/plugin/notes/notes.js' }
+  				]
+      });
+  </script>
+</body>
+</html>
